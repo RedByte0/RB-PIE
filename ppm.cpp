@@ -55,6 +55,45 @@ void ppm::change_header_type() {
 void ppm::for_each(std::function<void(pixel&)> func) {
 	for(pixel& px : pixels_)
 		func(px);
+	normalize();
+}
+
+void ppm::grayscale() {
+	for_each([](pixel& px) {px[0] = px[1] = px[2] = (int)px.brightness();});
+}
+
+void ppm::sepia() {
+	for_each([](pixel& px)  {
+		px[0] = (px[0] * 1.8);
+		px[1] = (px[1] * 1.2);
+		px[2] = (px[2] * 0.8);
+	});
+}
+
+void ppm::vertical_flip() {
+	std::reverse(pixels_.begin(), pixels_.end());
+}
+
+void ppm::brightnes(float percentage) {
+	//this function can break the balance between colors	
+	percentage = percentage / 100 + 1;
+	for(pixel& px : pixels_) {
+		for(long unsigned int channel = 0; channel < px.size(); channel++) {
+			px[channel] = px[channel] * percentage;
+		}
+	}
+	normalize();
+}
+
+void ppm::normalize() {
+	for(pixel& px : pixels_) {
+		for(long unsigned int channel = 0; channel < px.size(); channel++) {
+			if(px[channel] > 255)
+				px[channel] = 255;
+			else if(px[channel] < 0)
+				px[channel] = 0;
+		}
+	}
 }
 
 ppm& ppm::operator=(const ppm& p) {

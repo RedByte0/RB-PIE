@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <numeric>
 
 //pie = ppm_image_editor
 namespace pie {
@@ -20,6 +21,7 @@ public:
 	~pixel();
 
 	long unsigned int size() {return rgb_.size();}
+	float brightness();
 
 	pixel& operator=(const pixel& px);
 	void operator=(pixel&& px);

@@ -24,6 +24,13 @@ pixel::~pixel() {
 	;
 }
 
+float pixel::brightness() {
+	int total = 0;
+	for(int i = 0; i < NUMBER_OF_COLOR_CHANNELS; i++)
+		total += rgb_[i];
+	return (float) total / NUMBER_OF_COLOR_CHANNELS;
+}
+
 pixel& pixel::operator=(const pixel& px) {
 	rgb_ = px.rgb_;
 	return *this;

@@ -14,6 +14,7 @@ private:
 	const std::vector<char> type_;
 	std::vector<char> header_;
 	std::vector<pixel> pixels_;
+
 public:
 	ppm(std::vector<char>&& file_type);
 	ppm(const ppm& p);
@@ -31,6 +32,14 @@ public:
 	void change_header_type();
 
 	virtual void for_each(std::function<void(pixel&)> func);
+
+	//some functoins just for fun
+	void grayscale();
+	void sepia();
+	void vertical_flip();
+	void brightnes(float percentage);
+
+	void normalize();
 
 	ppm& operator=(const ppm& p);
 	void operator=(ppm&& p);
