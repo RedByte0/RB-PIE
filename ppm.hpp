@@ -21,6 +21,9 @@ public:
 	ppm(const ppm&& p);
 	virtual ~ppm() = 0; //pure virtual class
 
+	int width();
+	int height();
+
 	void load_header(std::vector<char>&& buffer);
 	void load_pixels(std::vector<pixel>&& buffer);
 	void write_header(std::ofstream& file);
@@ -37,15 +40,18 @@ public:
 	void grayscale();
 	void sepia();
 	void vertical_flip();
+	void horizontal_flip();
 	void brightnes(float percentage);
-
-	void normalize();
 
 	ppm& operator=(const ppm& p);
 	void operator=(ppm&& p);
 	pixel& operator[](int index);
 	const pixel& operator[](int index) const;
 	void operator+=(pixel px);
+
+private:
+	void normalize();
+	std::vector<char*> width_and_height();
 };
 
 class p3 : public ppm {
