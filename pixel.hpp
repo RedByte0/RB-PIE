@@ -20,7 +20,7 @@ public:
 	pixel(std::vector<int>&& colors);
 	~pixel();
 
-	long unsigned int size() {return rgb_.size();}
+	std::size_t size() {return rgb_.size();}
 	float brightness();
 
 	pixel& operator=(const pixel& px);

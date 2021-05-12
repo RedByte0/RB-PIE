@@ -34,7 +34,7 @@ int ppm::height() {
 	std::string height = "";
 	std::vector<char*> header_section = width_and_height();
 	//remove height
-	for(long unsigned int i = header_section.size(); i > 0 && *header_section[i] != ' '; i--) {
+	for(std::size_t i = header_section.size(); i > 0 && *header_section[i] != ' '; i--) {
 		height += *header_section[i];
 	}
 	std::reverse(height.begin(), height.end());
@@ -86,9 +86,9 @@ void ppm::grayscale() {
 
 void ppm::sepia() {
 	for_each([](pixel& px)  {
-		px[0] = (px[0] * 1.8);
-		px[1] = (px[1] * 1.2);
-		px[2] = (px[2] * 0.8);
+		px[0] = int(px[0] * 1.8);
+		px[1] = int(px[1] * 1.2);
+		px[2] = int(px[2] * 0.8);
 	});
 }
 
@@ -108,7 +108,7 @@ void ppm::brightnes(float percentage) {
 	percentage = percentage / 100 + 1;
 	for(pixel& px : pixels_) {
 		for(long unsigned int channel = 0; channel < px.size(); channel++) {
-			px[channel] = px[channel] * percentage;
+			px[channel] = int(px[channel] * percentage);
 		}
 	}
 	normalize();
@@ -125,11 +125,11 @@ void ppm::operator=(ppm&& p) {
 	pixels_ = std::move(p.pixels_);
 }
 
-pixel& ppm::operator[](int index) {
+pixel& ppm::operator[](std::size_t index) {
 	return pixels_[index];
 }
 
-const pixel& ppm::operator[](int index) const {
+const pixel& ppm::operator[](std::size_t index) const {
 	return pixels_[index];
 }
 
@@ -150,7 +150,7 @@ void ppm::normalize() {
 
 std::vector<char*> ppm::width_and_height() {
 	std::vector<char*> header_section;
-	for(int i = header_.size() - 6; i > 0; i--) {
+	for(std::size_t i = header_.size() - 6; i > 0; i--) {
 		if (header_[i] == '\n')
 			break;
 		header_section.push_back(&header_[i]);

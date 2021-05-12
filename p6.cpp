@@ -18,9 +18,10 @@ p6::~p6() {
 }
 
 bool p6::load(const char* file_name) {
-	std::ifstream file(file_name);
+	std::ifstream file(file_name, std::ios::binary);
 	if(file.is_open()) {
 		std::vector<int> buffer = std::vector<int>(std::istreambuf_iterator<char>(file), {});
+	
 		load_header(buffer);
 		if(this->ppm::file_type_is_correct()) {
 			load_pixels(buffer);
@@ -36,10 +37,10 @@ bool p6::load(const char* file_name) {
 }
 
 void p6::save(const char* file_name) {
-	std::ofstream file(file_name);
+	std::ofstream file(file_name, std::ios::binary);
 	this->ppm::write_header(file);
-	for(long unsigned int px = 0; px < this->ppm::size(); px++) {
-		for(long unsigned int channel = 0; channel < this->ppm::operator[](px).size(); channel++)
+	for(std::size_t px = 0; px < this->ppm::size(); px++) {
+		for(std::size_t channel = 0; channel < this->ppm::operator[](px).size(); channel++)
 			file << (char)this->ppm::operator[](px)[channel];
 	}
 	file.close();
@@ -48,7 +49,7 @@ void p6::save(const char* file_name) {
 void p6::load_header(std::vector<int>& buffer) {
 	const std::vector<char> end_of_header_flag = {'2','5','5','\n'};
 	bool end_of_header_flag_found = false;
-	long unsigned int header_size = 0;
+	std::size_t header_size = 0;
 
 	for(header_size = 0; header_size < buffer.size() && end_of_header_flag_found == false; header_size++) {
 		std::vector<char> last_four_characters_from_buffer = std::vector<char>();

@@ -9,9 +9,8 @@ using pie::pixel;
 //example code
 int main() {
 	p6 image;
-	image.load("./images/bearP6.ppm");
-	image.horizontal_flip();
-	image.vertical_flip();
-	image.save("test.ppm");
+	image.load("");
+	p3 image2 = image;
+	image2.save("test.ppm");
 	return 0;
 }

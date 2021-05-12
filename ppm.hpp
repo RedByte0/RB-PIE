@@ -31,7 +31,7 @@ public:
 	std::vector<char> file_type();
 	bool file_type_is_correct();
 
-	long unsigned int size() {return pixels_.size();};
+	std::size_t size() {return pixels_.size();};
 	void change_header_type();
 
 	virtual void for_each(std::function<void(pixel&)> func);
@@ -45,8 +45,8 @@ public:
 
 	ppm& operator=(const ppm& p);
 	void operator=(ppm&& p);
-	pixel& operator[](int index);
-	const pixel& operator[](int index) const;
+	pixel& operator[](std::size_t index);
+	const pixel& operator[](std::size_t index) const;
 	void operator+=(pixel px);
 
 private:
